@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigInteger;
@@ -17,7 +19,8 @@ import java.util.List;
 @Table(name = "user_atm")
 public class User implements UserDetails {
 
-@Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cardId;
     @Column(name = "pin")
     private String pin;
@@ -108,7 +111,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
-        grantedAuthorityList.add(new SimpleGrantedAuthority("USER"));
+        grantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
         return grantedAuthorityList;
     }
 

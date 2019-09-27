@@ -4,12 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
-public class LowBalanceException extends RuntimeException {
+public class LargeAmountException extends RuntimeException{
 
-    public LowBalanceException(String message) {
-        super(message);
+    public LargeAmountException() {
     }
 
-    public LowBalanceException() {
+    public LargeAmountException(String message) {
+        super(message);
     }
 }

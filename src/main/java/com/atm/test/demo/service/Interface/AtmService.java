@@ -1,12 +1,17 @@
 package com.atm.test.demo.service.Interface;
 
+import com.atm.test.demo.entity.ATM;
+
 import java.math.BigInteger;
+import java.util.Optional;
 
 public interface AtmService {
 
-    void replenish(BigInteger sum);
+    Optional<ATM> getById(Long id);
 
-    void withdrawal(BigInteger sim);
+    void replenish(ATM atm, int denomination100, int denomination200, int denomination500);
 
-    String info();
+    void withdrawal(ATM atm, BigInteger sum);
+
+    String info(ATM atm);
 }

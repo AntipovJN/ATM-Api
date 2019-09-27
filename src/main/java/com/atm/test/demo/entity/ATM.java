@@ -2,28 +2,33 @@ package com.atm.test.demo.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class ATM {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "address")
     private String address;
     @Column(name = "bank")
     private String bank;
-    private int count100denomination;
-    private int count200denomination;
-    private int count500denomination;
+    private Integer count100denomination;
+    private Integer count200denomination;
+    private Integer count500denomination;
 
-    public ATM(Long id, String address, String bank, int count100denomination, int count200denomination, int count500denomination) {
-        this.id = id;
+    public ATM( String address, String bank, int count100denomination, int count200denomination, int count500denomination) {
         this.address = address;
         this.bank = bank;
         this.count100denomination = count100denomination;
         this.count200denomination = count200denomination;
         this.count500denomination = count500denomination;
+    }
+
+    public ATM() {
     }
 
     public Long getId() {

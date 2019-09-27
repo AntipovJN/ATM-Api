@@ -32,13 +32,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/atm/")
-                .hasAnyRole()
+                .antMatchers("/api/atm/{id}/*")
+                .hasRole("USER")
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .usernameParameter("cardId")
+                    .usernameParameter("cardId")
                 .passwordParameter("pin")
                 .successHandler((req, res, auth) ->
                         res.sendRedirect("/login"))
