@@ -1,12 +1,15 @@
 package com.atm.test.demo.controller;
 
 import com.atm.test.demo.Exception.AtmNotFoundException;
+import com.atm.test.demo.Exception.UserNotFoundException;
 import com.atm.test.demo.entity.ATM;
 import com.atm.test.demo.entity.IOTransaction;
+import com.atm.test.demo.entity.TransferTransaction;
 import com.atm.test.demo.entity.User;
 import com.atm.test.demo.service.Interface.AtmService;
 import com.atm.test.demo.service.Interface.FinancialOperationService;
 import com.atm.test.demo.service.Interface.TransactionService;
+import com.atm.test.demo.service.Interface.UserService;
 import com.atm.test.demo.utils.SumComputingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,14 +28,17 @@ public class ReplenishmentWithdrawalController {
     private TransactionService transactionService;
     private FinancialOperationService financialOperationService;
     private AtmService atmService;
+    private UserService userService;
 
     @Autowired
     public ReplenishmentWithdrawalController(TransactionService ioTransactionService,
                                              FinancialOperationService financialOperationService,
-                                             AtmService atmService) {
+                                             AtmService atmService,
+                                             UserService userService) {
         this.transactionService = ioTransactionService;
         this.financialOperationService = financialOperationService;
         this.atmService = atmService;
+        this.userService = userService;
     }
 
     @RequestMapping(value = "{id}/replenish", method = RequestMethod.POST)
@@ -52,8 +58,8 @@ public class ReplenishmentWithdrawalController {
     }
 
     @RequestMapping(value = "{id}/withdrawal", method = RequestMethod.POST)
-    public IOTransaction withdrawalException(@AuthenticationPrincipal User user,
-                                             @PathVariable String id, int sum) {
+    public IOTransaction withdrawalTransaction(@AuthenticationPrincipal User user,
+                                               @PathVariable String id, int sum) {
         Optional<ATM> optionalATM = atmService.getById(Long.valueOf(id));
         if (optionalATM.isPresent()) {
             ATM atm = optionalATM.get();
@@ -62,6 +68,28 @@ public class ReplenishmentWithdrawalController {
             IOTransaction transaction = transactionService.withdrawalBalance(atm, user, bigIntegerSum);
             financialOperationService.withdrawal(transaction, user, bigIntegerSum);
             return transaction;
+        }
+        throw new AtmNotFoundException("ATM not found");
+    }
+
+    @RequestMapping(value = "{id}/transfer", method = RequestMethod.POST)
+    public TransferTransaction transferTransaction(@AuthenticationPrincipal User user,
+                                                   @PathVariable String id,
+                                                   String recipientCardId, int sum) {
+        Optional<ATM> optionalATM = atmService.getById(Long.valueOf(id));
+        if (optionalATM.isPresent()) {
+            Optional<User> optionalUser = userService.getUserByCardId(Long.valueOf(recipientCardId));
+            if (optionalUser.isPresent()) {
+                ATM atm = optionalATM.get();
+                User recipient = optionalUser.get();
+                BigInteger bigIntegerSum = BigInteger.valueOf(sum);
+                TransferTransaction transaction = transactionService.createTransferTransaction(
+                        atm, user, recipient, bigIntegerSum);
+                financialOperationService.transfer(transaction, user, recipient, bigIntegerSum);
+                return transaction;
+            }
+            throw new UserNotFoundException(
+                    String.format("User with card id ='%s' not found", recipientCardId));
         }
         throw new AtmNotFoundException("ATM not found");
     }

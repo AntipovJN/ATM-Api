@@ -20,9 +20,9 @@ public class TransferTransaction {
     private Long id;
     @OneToOne
     private ATM atm;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     private User sender;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     private User recipient;
     @Column(name = "sum")
     private BigInteger sum;
