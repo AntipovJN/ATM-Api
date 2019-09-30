@@ -1,8 +1,8 @@
-package com.atm.test.demo.controller;
+package com.atm.test.demo.Controller;
 
 
 import com.atm.test.demo.Repository.UserRepository;
-import com.atm.test.demo.entity.User;
+import com.atm.test.demo.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;

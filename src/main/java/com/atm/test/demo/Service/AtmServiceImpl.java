@@ -1,12 +1,12 @@
-package com.atm.test.demo.service;
+package com.atm.test.demo.Service;
 
 import com.atm.test.demo.Exception.IndivisableAmountException;
 import com.atm.test.demo.Exception.LargeAmountException;
 import com.atm.test.demo.Repository.AtmRepository;
-import com.atm.test.demo.entity.ATM;
-import com.atm.test.demo.entity.AmountInDenominations;
-import com.atm.test.demo.service.Interface.AtmService;
-import com.atm.test.demo.utils.SumComputingUtil;
+import com.atm.test.demo.Entity.ATM;
+import com.atm.test.demo.DTO.AmountInDenominations;
+import com.atm.test.demo.Service.Interface.AtmService;
+import com.atm.test.demo.Utils.SumComputingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.atm.test.demo.utils;
+package com.atm.test.demo.Utils;
 
-        import com.atm.test.demo.entity.AmountInDenominations;
+        import com.atm.test.demo.DTO.AmountInDenominations;
 
         import java.math.BigInteger;
 

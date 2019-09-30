@@ -1,7 +1,7 @@
-package com.atm.test.demo.service;
+package com.atm.test.demo.Service;
 
 import com.atm.test.demo.Repository.UserRepository;
-import com.atm.test.demo.entity.User;
+import com.atm.test.demo.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

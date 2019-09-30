@@ -1,16 +1,16 @@
-package com.atm.test.demo.controller;
+package com.atm.test.demo.Controller;
 
 import com.atm.test.demo.Exception.AtmNotFoundException;
 import com.atm.test.demo.Exception.UserNotFoundException;
-import com.atm.test.demo.entity.ATM;
-import com.atm.test.demo.entity.IOTransaction;
-import com.atm.test.demo.entity.TransferTransaction;
-import com.atm.test.demo.entity.User;
-import com.atm.test.demo.service.Interface.AtmService;
-import com.atm.test.demo.service.Interface.FinancialOperationService;
-import com.atm.test.demo.service.Interface.TransactionService;
-import com.atm.test.demo.service.Interface.UserService;
-import com.atm.test.demo.utils.SumComputingUtil;
+import com.atm.test.demo.Entity.ATM;
+import com.atm.test.demo.Entity.IOTransaction;
+import com.atm.test.demo.Entity.TransferTransaction;
+import com.atm.test.demo.Entity.User;
+import com.atm.test.demo.Service.Interface.AtmService;
+import com.atm.test.demo.Service.Interface.FinancialOperationService;
+import com.atm.test.demo.Service.Interface.TransactionService;
+import com.atm.test.demo.Service.Interface.UserService;
+import com.atm.test.demo.Utils.SumComputingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;

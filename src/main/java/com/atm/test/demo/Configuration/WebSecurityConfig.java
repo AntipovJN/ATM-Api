@@ -1,6 +1,6 @@
-package com.atm.test.demo.configuration;
+package com.atm.test.demo.Configuration;
 
-import com.atm.test.demo.service.UserDetailsServiceImpl;
+import com.atm.test.demo.Service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
