@@ -1,15 +1,15 @@
 package com.atm.test.demo.сontroller;
 
+import com.atm.test.demo.entity.Account;
 import com.atm.test.demo.exception.AtmNotFoundException;
 import com.atm.test.demo.exception.UserNotFoundException;
 import com.atm.test.demo.entity.ATM;
 import com.atm.test.demo.entity.IOTransaction;
 import com.atm.test.demo.entity.TransferTransaction;
-import com.atm.test.demo.entity.User;
+import com.atm.test.demo.service.interfaces.AccountService;
 import com.atm.test.demo.service.interfaces.AtmService;
 import com.atm.test.demo.service.interfaces.FinancialOperationService;
 import com.atm.test.demo.service.interfaces.TransactionService;
-import com.atm.test.demo.service.interfaces.UserService;
 import com.atm.test.demo.util.SumComputingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,37 +28,37 @@ public class ReplenishmentWithdrawalController {
     private TransactionService transactionService;
     private FinancialOperationService financialOperationService;
     private AtmService atmService;
-    private UserService userService;
+    private AccountService accountService;
 
     @Autowired
     public ReplenishmentWithdrawalController(TransactionService ioTransactionService,
                                              FinancialOperationService financialOperationService,
                                              AtmService atmService,
-                                             UserService userService) {
+                                             AccountService accountService) {
         this.transactionService = ioTransactionService;
         this.financialOperationService = financialOperationService;
         this.atmService = atmService;
-        this.userService = userService;
+        this.accountService = accountService;
     }
 
     @RequestMapping(value = "{id}/replenish", method = RequestMethod.POST)
     public IOTransaction replenishTransaction(@PathVariable String id,
-                                              @AuthenticationPrincipal User user,
+                                              @AuthenticationPrincipal Account acc,
                                               int denom100, int denom200, int denom500) {
         Optional<ATM> optionalATM = atmService.getById(Long.valueOf(id));
         if (optionalATM.isPresent()) {
             ATM atm = optionalATM.get();
             atmService.replenish(atm, denom100, denom200, denom500);
             BigInteger sum = SumComputingUtil.computeSum(denom100, denom200, denom500);
-            IOTransaction transaction = transactionService.replenishBalance(atm, user, sum);
-            financialOperationService.replenishment(transaction, user, sum);
+            IOTransaction transaction = transactionService.replenishBalance(atm, acc, sum);
+            financialOperationService.replenishment(transaction, acc, sum);
             return transaction;
         }
         throw new AtmNotFoundException("ATM not found");
     }
 
     @RequestMapping(value = "{id}/withdrawal", method = RequestMethod.POST)
-    public IOTransaction withdrawalTransaction(@AuthenticationPrincipal User user,
+    public IOTransaction withdrawalTransaction(@AuthenticationPrincipal Account user,
                                                @PathVariable String id, int sum) {
         Optional<ATM> optionalATM = atmService.getById(Long.valueOf(id));
         if (optionalATM.isPresent()) {
@@ -74,16 +74,16 @@ public class ReplenishmentWithdrawalController {
     }
 
     @RequestMapping(value = "{id}/transfer", method = RequestMethod.POST)
-    public TransferTransaction transferTransaction(@AuthenticationPrincipal User user,
+    public TransferTransaction transferTransaction(@AuthenticationPrincipal Account user,
                                                    @PathVariable String id,
                                                    String recipientCardId, int sum) {
         Optional<ATM> optionalATM = atmService.getById(Long.valueOf(id));
         if (optionalATM.isPresent()) {
-            Optional<User> optionalUser = userService.getUserByCardId(
+            Optional<Account> optionalUser = accountService.getByCardId(
                     Long.valueOf(recipientCardId));
             if (optionalUser.isPresent()) {
                 ATM atm = optionalATM.get();
-                User recipient = optionalUser.get();
+                Account recipient = optionalUser.get();
                 BigInteger bigIntegerSum = BigInteger.valueOf(sum);
                 TransferTransaction transaction = transactionService.createTransferTransaction(
                         atm, user, recipient, bigIntegerSum);

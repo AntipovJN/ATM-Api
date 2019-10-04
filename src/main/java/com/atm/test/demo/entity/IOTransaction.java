@@ -19,14 +19,14 @@ public class IOTransaction {
     @OneToOne
     private ATM atm;
     @OneToOne
-    private User recipient;
+    private Account recipient;
     @Column(name = "sum")
     private BigInteger sum;
 
     public IOTransaction() {
     }
 
-    public IOTransaction( ATM atm, User recipient, BigInteger sum) {
+    public IOTransaction(ATM atm, Account recipient, BigInteger sum) {
         this.atm = atm;
         this.recipient = recipient;
         this.sum = sum;
@@ -48,11 +48,11 @@ public class IOTransaction {
         this.id = id;
     }
 
-    public User getRecipient() {
+    public Account getRecipient() {
         return recipient;
     }
 
-    public void setRecipient(User recipient) {
+    public void setRecipient(Account recipient) {
         this.recipient = recipient;
     }
 

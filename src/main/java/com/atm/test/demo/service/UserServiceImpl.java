@@ -1,12 +1,12 @@
 package com.atm.test.demo.service;
 
-import com.atm.test.demo.repository.UserRepository;
+import com.atm.test.demo.entity.Account;
 import com.atm.test.demo.entity.User;
+import com.atm.test.demo.repository.UserRepository;
 import com.atm.test.demo.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.Optional;
 
 @Service
@@ -20,12 +20,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BigInteger getBalance(User user) {
-        return user.getBalance();
-    }
-
-    @Override
-    public Optional<User> getUserByCardId(Long id) {
-        return userRepository.findById(id);
+    public Optional<User> getByAccount(Account account) {
+        return userRepository.findByBankAccountsContaining(account);
     }
 }
